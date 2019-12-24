@@ -17,7 +17,7 @@ class CsvController extends Controller
     if (($csv = fopen($request->file('csv'), "r+")) !== FALSE) {
       while(($row = fgetcsv($csv, 0, ";")) !== FALSE) {
         if($counter == 0) {
-          $obj = array('categories' => $row, 'products' => []);
+          $obj = array('csvName' => $_FILES['csv']['name'], 'categories' => $row, 'products' => []);
           $counter++;
         } else {
           array_push($obj['products'], $row);

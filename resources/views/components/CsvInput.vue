@@ -5,7 +5,8 @@
       <input type="file" class="form-control-file" ref="fileInput">
     </div>
 
-    <CsvTable :categories="categories" :products="products" v-if="categories.length != 0 && products.length != 0"/>
+    <CsvTable :csvName="csvName" :categories="categories" :products="products"
+      v-if="categories.length != 0 && products.length != 0"/>
   </div>
 </template>
 
@@ -36,6 +37,7 @@ export default {
       .then((response) => {
         this.categories = response.data.categories;
         this.products = response.data.products;
+        this.csvName = response.data.csvName;
       })
       .catch((error) => {
         console.log(error);
@@ -52,7 +54,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   .csv-input {
     margin: 15px;
   }
