@@ -2,7 +2,7 @@
   <div class="">
     <h3 class="card-header text-center font-weight-bold text-uppercase py-4">{{ csvName }}</h3>
     <div class="options">
-      <div class="pagination-option">
+      <div class="option">
         <b-pagination
           :total-rows="totalRows"
           v-model="currentPage"
@@ -11,23 +11,28 @@
           class="csv-table-pagination"
         ></b-pagination>
       </div>
-      <div class="numberation-option">
-        <input ref="numb" type="text" name="productsPerPage" v-model="perPage">
+      <div class="option onlyNumber">
+        <input type="number" :value="currentPage" v-on:keyup="verifyCurrentPage($event)">
+        <span>Page</span>
+      </div>
+      <div class="option onlyNumber">
+        <input type="number" v-model="perPage">
         <span>Elements per Page</span>
       </div>
+      <input v-on:keyup="filterProducts" class="search form-control mr-sm-2" type="search" v-model="search" placeholder="Search" aria-label="Search">
     </div>
 
     <div class="csv-table">
       <table class="table table-bordered table-responsive-md table-striped text-center">
         <thead>
           <tr>
-            <th v-if="index != 3" v-for="category, index in categories">{{ category }}</th>
-            <th v-else style="min-width: 400px">{{ category }}</th>
+            <th @click="sort(category)" v-if="index != 3" v-for="category, index in categories">{{ category }}</th>
+            <th @click="sort(category)" v-else style="min-width: 400px">{{ category }}</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="list in lists">
-            <td v-for="detail in list">{{ detail }}</td>
+          <tr v-for="sortedProduct in sortedProducts">
+            <td v-for="detail in sortedProduct">{{ detail }}</td>
           </tr>
         </tbody>
       </table>
@@ -38,6 +43,7 @@
 
 <script type="text/javascript">
   import { BPagination } from 'bootstrap-vue'
+  import $ from "jquery";
 
   export default {
     components: {
@@ -51,19 +57,57 @@
     data () {
       return {
         currentPage: 1,
-        perPage: 5
+        perPage: 5,
+        currentSort: this.categories[0],
+        currentSortDir: 'asc',
+        search: ''
       }
     },
     computed: {
-      lists () {
-        return this.products.slice(
+      totalRows () {
+        return this.products.length
+      },
+      sortedProducts () {
+        let sortedProducts = this.products.sort((a,b) => {
+          let modifier = 1;
+          let currentSort = this.categories.indexOf(this.currentSort);
+          if(this.currentSortDir === 'desc') modifier = -1;
+          if(a[currentSort] < b[currentSort]) return -1 * modifier;
+          if(a[currentSort] > b[currentSort]) return 1 * modifier;
+          return 0;
+        });
+
+        let slicedProducts = sortedProducts.slice(
           (this.currentPage - 1) * this.perPage,
           this.currentPage * this.perPage
         )
-      },
-      totalRows () {
-        return this.products.length
+        return slicedProducts;
       }
+    },
+    methods: {
+      sort: function (s) {
+        //if s == current sort, reverse
+        if(s === this.currentSort) {
+          this.currentSortDir = this.currentSortDir === 'asc' ? 'desc' : 'asc';
+        }
+        this.currentSort = s;
+      },
+      filterProducts: function () {
+        var value = this.search;
+        $('.csv-table tbody tr').filter(function() {
+          $(this).toggle($(this).text()
+          .toLowerCase().indexOf(value) > -1)
+        });
+      },
+      verifyCurrentPage ($event) {
+        let currentPage = $event.target.valueAsNumber;
+        if(currentPage > 0) {
+          this.currentPage = currentPage;
+        }
+      },
+    },
+    updated () {
+      this.filterProducts();
     }
   }
 </script>
@@ -78,55 +122,38 @@
     table-layout: auto;
   }
 
+  .csv-table table th {
+    cursor: pointer;
+  }
+
   .options {
     margin: 15px;
   }
 
-  .option, .pagination-option, .numberation-option {
+  .option {
     display: inline-block;
-  }
-
-  .pagination-option {
     margin-right: 15px;
   }
 
-  .numberation-option input {
+  .option input {
     width: 30px;
   }
+
+  .search {
+    max-width: 320px;
+  }
+
+  .onlyNumber {
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+      -moz-appearance:textfield;
+    }
+  }
 </style>
-
-
-
-
-
-
-
-
-
-<!-- <div class="card">
-  <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Csv name</h3>
-  <div class="card-body">
-    <div class="table-editable">
-      <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success"><i
-            class="fas fa-plus fa-2x" aria-hidden="true"></i></a></span>
-      <b-pagination
-      :total-rows="totalRows"
-      v-model="currentPage"
-      :per-page="perPage"
-      class="csv-table-pagination"
-      ></b-pagination>
-      <table class="csv-table table table-bordered table-responsive-md table-striped text-center">
-        <thead>
-          <tr>
-            <th v-for="category in categories" class="text-center">{{ category }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="list in lists">
-            <td v-for="detail in list" class="pt-3-half" contenteditable="true">{{ detail }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div> -->

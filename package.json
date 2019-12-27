@@ -23,6 +23,7 @@
         "bootstrap": "4.4.1",
         "bootstrap-vue": "2.1.0",
         "portal-vue": "2.1.6",
-        "dotenv": "8.2.0"
+        "dotenv": "8.2.0",
+        "jquery": "3.4.1"
     }
 }
