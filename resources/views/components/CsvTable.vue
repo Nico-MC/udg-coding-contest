@@ -32,7 +32,7 @@
         </thead>
         <tbody>
           <tr v-for="sortedProduct in sortedProducts">
-            <td v-for="detail in sortedProduct">{{ detail }}</td>
+            <td contenteditable="true" v-for="detail in sortedProduct">{{ detail }}</td>
           </tr>
         </tbody>
       </table>

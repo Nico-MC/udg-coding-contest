@@ -7,16 +7,21 @@
 
     <CsvTable :csvName="csvName" :categories="categories" :products="products"
       v-if="categories.length != 0 && products.length != 0"/>
+
+    <CsvChart :csvName="csvName" :categories="categories" :products="products"
+      v-if="categories.length != 0 && products.length != 0"/>
   </div>
 </template>
 
 <script>
-import CsvTable from '@/views/components/csvTable.vue';
+import CsvTable from '@/views/components/CsvTable.vue';
+import CsvChart from '@/views/components/CsvChart.vue';
 import axios from 'axios';
 
 export default {
   components: {
-    CsvTable
+    CsvTable,
+    CsvChart
   },
   data () {
     return {
