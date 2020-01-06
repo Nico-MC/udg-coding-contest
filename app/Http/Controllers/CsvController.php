@@ -12,9 +12,14 @@ class CsvController extends Controller
    * @return \Illuminate\Http\Response
    */
   public function handleCsv(Request $request) {
-    $counter = 0;
+    // ----- just for testing -----
+    // $file = $_FILES['csv']['tmp_name'];
+    // $content = file_get_contents($file);
+    // print_r($content);
+    // ----- just for testing -----
 
-    if (($csv = fopen($request->file('csv'), "r+")) !== FALSE) {
+    $counter = 0;
+    if (($csv = fopen($request->file('csv'), "r")) !== FALSE) {
       while(($row = fgetcsv($csv, 0, ";")) !== FALSE) {
         if($counter == 0) {
           $obj = array('csvName' => $_FILES['csv']['name'], 'categories' => $row, 'products' => []);

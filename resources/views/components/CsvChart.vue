@@ -1,6 +1,6 @@
 <template>
   <div id="chart">
-    <apexchart height="auto" type="bar" :options="chartData.chartOptions" :series="chartData.series"></apexchart>
+    <apexchart height="1000px" type="bar" :options="chartData.chartOptions" :series="chartData.series"></apexchart>
   </div>
 </template>
 
@@ -39,8 +39,7 @@ export default {
         }],
         chartOptions: {
           chart: {
-            type: 'bar',
-            stackType: '100%'
+            type: 'bar'
           },
           plotOptions: {
             bar: {

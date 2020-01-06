@@ -2,6 +2,18 @@
 npm run watch<br>
 php artisan serve
 
+In this project, I use the PHP framework Laravel with the MVC pattern for the backend.<br>
+This includes all logic needed for handling the csv import and export.<br>
+Laravel is not necessary for this project but I decided to set up because I want to go more into it.<br>Moreover, I always have some experience with Symphony, that also operates after the MVC pattern.<br>
+
+To use the application, please install all required modules via npm (from root directory):
+> npm install
+
+If you have questions please don't hesitate to contact me:<br>
+niconoster@t-online.de<br>
+
+For the latest update please pull the repository via github (https://github.com/Nico-MC)
+
 <!-- <p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
 
 <p align="center">
