@@ -4,7 +4,8 @@ php artisan serve
 
 In this project, I use the PHP framework Laravel with the MVC pattern for the backend.<br>
 This includes all logic needed for handling the csv import and export.<br>
-Laravel is not necessary for this project but I decided to set up because I want to go more into it.<br>Moreover, I always have some experience with Symphony, that also operates after the MVC pattern.<br>
+Laravel is not necessary for this project but I decided to set it up because I want to go more into it.<br>Moreover, I always have some experience with Symphony, that also operates after the MVC pattern.<br>
+For the frontend I use Vue.js, I already have experiences with it.<br>
 
 To use the application, please install all required modules via npm (from root directory):
 > npm install
