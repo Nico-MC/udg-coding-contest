@@ -20,7 +20,10 @@ Now, please **install the required node_modules via npm**:
 
 The backend is set up with Laravel.<br>
 Before starting the development server please make sure you **rename the .env_local file to .env**.<br>
-For safety the original .env file won't be committed into any repository.
+For safety the original .env file won't be committed into any repository.<br>
+
+It's very important that you **generate you personal local application key**:
+> php artisan key:generate
 
 Laravel has an integrated **web server** (Artisan) that can be started with this command:
 > php artisan serve
