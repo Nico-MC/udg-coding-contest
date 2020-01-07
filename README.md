@@ -1,4 +1,4 @@
-Please install composer on your system to download all required composer repositories, like the Vendor folder (run all commands in root directory)
+Please install composer on your system to download all required composer repositories, like the Vendor folder (run all commands in root directory):
 > composer install
 You can download composer here:
 https://getcomposer.org/download/<br>
