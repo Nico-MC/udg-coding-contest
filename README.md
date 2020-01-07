@@ -15,9 +15,6 @@ Then, the file should look like this:
 extension=php_fileinfo.dll<br>
 ;extension=shmop
 
-Now, please **install the required node_modules via npm**:
-> npm install
-
 The backend is set up with Laravel.<br>
 Before starting the development server please make sure you **rename the .env_local file to .env**.<br>
 For safety the original .env file won't be committed into any repository.<br>
@@ -25,11 +22,14 @@ For safety the original .env file won't be committed into any repository.<br>
 It's very important that you **generate you personal local application key**:
 > php artisan key:generate
 
+Now, please **install the required node_modules via npm**:
+> npm install
+
+The following command **build and watches** the node_modules:
+> npm run watch
+
 Laravel has an integrated **web server** (Artisan) that can be started with this command:
 > php artisan serve
-
-To start the watcher for the frontend, you can use:
-> npm run watch
 
 In this project, I use the PHP framework Laravel with the MVC pattern for the backend.<br>
 This includes all logic needed for handling the csv import and export.<br>
