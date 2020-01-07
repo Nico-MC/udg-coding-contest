@@ -1,14 +1,35 @@
-> npm run dev<br>
-npm run watch<br>
-php artisan serve
+Please install composer on your system to download all required composer repositories, like the Vendor folder<br>
+You can download composer here:
+https://getcomposer.org/download/<br>
+
+If you running into this problem:<br>
+*'Your requirements could not be resolved to an installable set of packages.'*<br>
+Add the following line to your **php.ini** file:
+> extension=php_fileinfo.dll
+
+Then, the file should look like this:
+> ;extension=pdo_sqlite<br>
+;extension=pgsql<br>
+extension=php_fileinfo.dll<br>
+;extension=shmop
+
+Now, please **install the required node_modules via npm** (you can run all commands in the root directory):
+> npm install
+
+The backend is set up with Laravel.<br>
+Before starting the development server please make sure you **rename the .env_local file to .env**.<br>
+For safety the original .env file won't be committed into any repository.
+
+Laravel has an integrated **web server** (Artisan) that can be started with this command:
+> php artisan serve
+
+To start the watcher for the frontend, you can use:
+> npm run watch
 
 In this project, I use the PHP framework Laravel with the MVC pattern for the backend.<br>
 This includes all logic needed for handling the csv import and export.<br>
 Laravel is not necessary for this project but I decided to set it up because I want to go more into it.<br>Moreover, I always have some experience with Symphony, that also operates after the MVC pattern.<br>
 For the frontend I use Vue.js, I already have experiences with it.<br>
-
-To use the application, please install all required modules via npm (from root directory):
-> npm install
 
 If you have questions please don't hesitate to contact me:<br>
 niconoster@t-online.de<br>
