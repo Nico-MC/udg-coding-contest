@@ -1,4 +1,5 @@
-Please install composer on your system to download all required composer repositories, like the Vendor folder<br>
+Please install composer on your system to download all required composer repositories, like the Vendor folder (run all commands in root directory)
+> composer install
 You can download composer here:
 https://getcomposer.org/download/<br>
 
@@ -13,7 +14,7 @@ Then, the file should look like this:
 extension=php_fileinfo.dll<br>
 ;extension=shmop
 
-Now, please **install the required node_modules via npm** (you can run all commands in the root directory):
+Now, please **install the required node_modules via npm**:
 > npm install
 
 The backend is set up with Laravel.<br>
