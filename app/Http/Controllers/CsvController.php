@@ -12,25 +12,44 @@ class CsvController extends Controller
    * @return \Illuminate\Http\Response
    */
   public function handleCsv(Request $request) {
-    // ----- just for testing -----
-    // $file = $_FILES['csv']['tmp_name'];
-    // $content = file_get_contents($file);
-    // print_r($content);
-    // ----- just for testing -----
-
     $counter = 0;
-    if (($csv = fopen($request->file('csv'), "r")) !== FALSE) {
-      while(($row = fgetcsv($csv, 0, ";")) !== FALSE) {
+    if (($handle = fopen($request->file('csv'), "r")) !== FALSE) {
+      while(($data = fgetcsv($handle, 0, ";")) !== FALSE) {
         if($counter == 0) {
-          $obj = array('csvName' => $_FILES['csv']['name'], 'categories' => $row, 'products' => []);
+          $arr = array('csvName' => $_FILES['csv']['name'], 'categories' => $data, 'products' => []);
           $counter++;
         } else {
-          array_push($obj['products'], $row);
+          array_push($arr['products'], $data);
         }
       }
-      fclose($csv);
+      fclose($handle);
     }
 
-    return json_encode($obj);
+    return json_encode($arr);
+  }
+
+
+
+  public function exportCsv(Request $request, $delimiter = ';') {
+    $csvCategories = json_decode($_POST['csvCategories']);
+    $csvContent = json_decode($_POST['csvContent']);
+    $headers = [
+            'Cache-Control'       => 'must-revalidate, post-check=0, pre-check=0'
+        ,   'Content-type'        => 'text/csv'
+        ,   'Content-Disposition' => 'attachment'
+        ,   'Expires'             => '0'
+        ,   'Pragma'              => 'public'
+    ];
+
+    $callback = function() use ($csvCategories, $csvContent, $delimiter) {
+      $file = fopen('php://output', 'w');
+      fputcsv($file, $csvCategories, $delimiter);
+      foreach ($csvContent as $row) {
+        fputcsv($file, $row, $delimiter);
+      }
+      fclose($file);
+    };
+
+    return response()->stream($callback, 200, $headers);
   }
 }

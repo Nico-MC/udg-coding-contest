@@ -10,7 +10,8 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::post('/exportCsv', 'CsvController@exportCsv');
+
+Route::post('/handleCsv', 'CsvController@handleCsv');
 
 Route::get('/{any}', 'SpaController@index')->where('any', '.*');
-
-Route::post('/handleCsv','CsvController@handleCsv');

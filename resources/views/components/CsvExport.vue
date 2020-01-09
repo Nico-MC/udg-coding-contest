@@ -5,59 +5,40 @@
 </template>
 
 <script>
+import axios from 'axios';
 
 export default {
-  data () {
-    return {
-      csvContent: "\ufeff" + this.categories.join(";") + "\n"
-    }
-  },
   props: {
     tableProducts: Array,
-    categories: Array
+    categories: Array,
+    csvName: String
   },
   methods: {
-    exportDataAsCsv: function(e) {
-      let tableProducts = this.tableProducts;
-      /*
-      Die CSV-Datei scheint kaputt zu sein,
-      denn ich kann mir einige Zeilenumbrüche nicht erklären.
-      Dementsprechend habe ich diese Logik geschrieben, die natürlich eigentlich
-      serverseitig (also im Controller laufen sollte).
-      Jedoch finde ich, dass es sinnvoller ist, die CSV richtig zu formatieren.
-      BSP: Für den Reiter 'Beschreibung' gibt es folgenden Inhalt:
-      ...
-      "Single Jersey, Rundhalsausschnitt mit Rippstrickkragen,  \n
-      Ärmelabschluss und Bund sind gekräuselt, Seitennähte,  \n
-      Neutrales Größenetikett im Nacken. "
-      ...
-      Wozu die Zeilenumbrüche?
-      Für eine Kategorie 3 Zeilen (bzw 5 Zellen) erscheint mir suspekt.
-      */
-      for (var i = 0; i < this.tableProducts.length; i++) {
-        for (var j = 0; j < this.tableProducts[i].length; j++) {
-          if(this.tableProducts[i][j].includes(" ")) {
-            this.tableProducts[i][j] = '"' + this.tableProducts[i][j] + '"';
-          }
-        }
-        this.csvContent += tableProducts[i].join(";") + "\n";
-      }
+    exportDataAsCsv: function() {
+      var formData = new FormData();
+      formData.append('csvCategories', JSON.stringify(this.categories));
+      formData.append('csvContent', JSON.stringify(this.tableProducts));
 
-      // Prepare CSV Download
-      let exportedFilename = 'Artikel_edited.csv';
-      let blob = new Blob([this.csvContent], { type: 'text/csv;charset=windows-1252;' });
-      this.csvContent = this.categories.join(";") + "\n";
-      var link = document.createElement("a");
-      if (link.download !== undefined) { // feature detection
-        // Browsers that support HTML5 download attribute
+      axios.post('/exportCsv', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      .then((response) => {
+        let contentType = response.headers['content-type'];
+        let blob = new Blob(['\uFEFF' + response.data], { type: 'text/csv;charset=utf-8' });
         var url = URL.createObjectURL(blob);
-        link.setAttribute("href", url);
-        link.setAttribute("download", exportedFilename);
-        link.style.visibility = 'hidden';
+        var link = document.createElement("a");
+        link.href = url;
+        link.download = "saved_" + this.csvName;
+
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-      }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     }
   }
 }

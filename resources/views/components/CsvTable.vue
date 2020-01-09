@@ -40,7 +40,7 @@
     <div class="safe-data-button">
       <button v-on:click="safeData">Safe table data</button>
     </div>
-    <CsvExport :categories="categories" :tableProducts="tableProducts"/>
+    <CsvExport :csvName="csvName" :categories="categories" :tableProducts="tableProducts"/>
   </div>
 </template>
 
@@ -67,6 +67,7 @@ export default {
       search: '',
       slicedProducts: [],
       lastPage: 1,
+      /* clone products because I don't want to change data of diagram if changing data in table */
       tableProducts: JSON.parse(JSON.stringify(this.products)),
       elementsPerPage: 5
     }
@@ -85,7 +86,7 @@ export default {
         if(a[currentSort] > b[currentSort]) return 1 * modifier;
         return 0;
       });
-      
+
       // Slice products for pagination
       this.slicedProducts = sortedProducts.slice(
         (this.currentPage - 1) * this.perPage,
