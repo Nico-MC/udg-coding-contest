@@ -1,17 +1,1 @@
-/tests
 /node_modules
-/public/hot
-/public/storage
-/public/css/*
-/public/js/*
-/public/fonts/*
-/storage/*.key
-/vendor
-.env
-.env.backup
-.env.example
-.phpunit.result.cache
-Homestead.json
-Homestead.yaml
-npm-debug.log
-yarn-error.log
